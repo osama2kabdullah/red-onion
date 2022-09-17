@@ -24,7 +24,7 @@ const Header = () => {
           />
         </svg>
         <span className="cursor-pointer hover:underline hover:text-red-500" onClick={()=>navigate('/login')}>Login</span>
-        <ButtonMe>Sign Up</ButtonMe>
+        <div onClick={()=>navigate('/signup')} className=" rounded-full"><ButtonMe>Sign Up</ButtonMe></div>
       </div>
     </nav>
   );
