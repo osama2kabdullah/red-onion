@@ -8,10 +8,11 @@ import MenuNav from "./MenuNav";
 
 const Menus = () => {
   return (
-    <section className="my-12">
+    <section className="my-12 mx-32">
       <MenuNav></MenuNav>
       
       <Routes>
+        <Route path="/" element={<Breakfast></Breakfast>}></Route>
         <Route path="/breakfast" element={<Breakfast></Breakfast>}></Route>
         <Route path="/lunch" element={<Lunch></Lunch>}></Route>
         <Route path="/dinner" element={<Dinner></Dinner>}></Route>
