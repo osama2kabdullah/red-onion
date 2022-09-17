@@ -1,22 +1,18 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import Breakfast from "./Breakfast";
-import Dinner from "./Dinner";
-import Lunch from "./Lunch";
 import MenuNav from "./MenuNav";
 
 
 const Menus = () => {
+  const {lunch} = useParams();
   return (
     <section className="my-12 mx-32">
       <MenuNav></MenuNav>
       
-      <Routes>
-        <Route path="/" element={<Breakfast></Breakfast>}></Route>
-        <Route path="/breakfast" element={<Breakfast></Breakfast>}></Route>
-        <Route path="/lunch" element={<Lunch></Lunch>}></Route>
-        <Route path="/dinner" element={<Dinner></Dinner>}></Route>
-      </Routes>
+      {
+        lunch ? <Outlet></Outlet> : <Breakfast></Breakfast>
+      }
       
       
       <div className="text-center">

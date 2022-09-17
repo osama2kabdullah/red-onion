@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import MenuCard from "./MenuCard";
 import lunch1 from "../../images/lunch/lunch1.png";
 
