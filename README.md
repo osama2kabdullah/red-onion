@@ -1,6 +1,4 @@
 # Red Onion
 
-### Technolgy that used in this project
+### [Live site](https://red-onion-5cd41.web.app/)
 ***
-1. Tailwind v3.1.8
-2. 
