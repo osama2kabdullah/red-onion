@@ -32,7 +32,7 @@ const Signup = () => {
   };
 
   return (
-    <section className="h-screen">
+    <section className="h-[120vh]">
       <form onSubmit={signUp} className="w-2/6 m-auto pt-12 grid gap-6">
         <img src={logo2} className="h-16 mx-auto mb-4" alt="" />
         <AltLogin></AltLogin>
