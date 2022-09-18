@@ -1,22 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo2 from "../../images/logo2.png";
 import AltLogin from "../shared/AltLogin";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
+import { sendPasswordResetEmail } from "firebase/auth";
 
 const Login = () => {
   const navigate = useNavigate();
 
-  const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
+  const [signInWithEmailAndPassword, error] = useSignInWithEmailAndPassword(auth);
 
-  const loginBtn = (e) => {
+  const loginBtn = async (e) => {
     e.preventDefault();
     const email = e.target?.email?.value;
     const password = e.target?.password?.value;
-    signInWithEmailAndPassword(email, password)
-    console.log(email, password)
+    await signInWithEmailAndPassword(email, password);
+    if(!error){
+      await navigate('/');
+    }
   };
+  
+  // reset pass
+  const [email, setEmail] = useState('');
+  const resetPass = () => {
+    email && sendPasswordResetEmail(auth, email);
+  }
 
   return (
     <section className="h-screen">
@@ -28,6 +37,7 @@ const Login = () => {
           placeholder="Email"
           name="email"
           type="email"
+          onChange={(e)=>setEmail(e.target.value)}
           required
         />
         <input
@@ -37,6 +47,7 @@ const Login = () => {
           type="password"
           required
         />
+        <span onClick={resetPass} className="text-red-600 cursor-pointer hover:underline">Forgot password</span>
         <input
           className="p-2 font-bold bg-red-500 rounded-md w-full hover:bg-red-600 active:bg-red-500 text-white"
           type="submit"
@@ -46,7 +57,7 @@ const Login = () => {
           onClick={() => navigate("/signup")}
           className="text-center text-red-600 cursor-pointer hover:underline"
         >
-          Don't have a Account
+          Don't have an Account
         </p>
       </form>
     </section>

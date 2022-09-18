@@ -1,27 +1,36 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import logo2 from '../../images/logo2.png'
+import logo2 from "../../images/logo2.png";
 import AltLogin from "../shared/AltLogin";
 import auth from "../../firebase.init";
-import { useCreateUserWithEmailAndPassword, useUpdateProfile } from 'react-firebase-hooks/auth';
+import {
+  useAuthState,
+  useCreateUserWithEmailAndPassword,
+  useUpdateProfile,
+} from "react-firebase-hooks/auth";
+import { sendEmailVerification } from "firebase/auth";
 
 const Signup = () => {
-    const navigate = useNavigate();
-    const [createUserWithEmailAndPassword] = useCreateUserWithEmailAndPassword(auth)
-    const [updateProfile] = useUpdateProfile(auth)
-    
-    const signUp = async e => {
-      e.preventDefault();
-      const name = e.target.name?.value;
-      const email = e.target.email?.value;
-      const password = e.target.password?.value;
-      const confirmPassword = e.target.confirmPassword?.value;
-      if(password === confirmPassword){
-        await createUserWithEmailAndPassword(email, password);
-        await updateProfile({displayName: name})
-      }
+  const [user] = useAuthState(auth);
+  const navigate = useNavigate();
+  const [createUserWithEmailAndPassword] =
+    useCreateUserWithEmailAndPassword(auth);
+  const [updateProfile] = useUpdateProfile(auth);
+
+  const signUp = async (e) => {
+    e.preventDefault();
+    const name = e.target.name?.value;
+    const email = e.target.email?.value;
+    const password = e.target.password?.value;
+    const confirmPassword = e.target.confirmPassword?.value;
+    if (password === confirmPassword) {
+      await createUserWithEmailAndPassword(email, password);
+      await updateProfile({ displayName: name });
+      await sendEmailVerification(auth.currentUser).then(() => {});
+      await navigate("/");
     }
-    
+  };
+
   return (
     <section className="h-screen">
       <form onSubmit={signUp} className="w-2/6 m-auto pt-12 grid gap-6">
@@ -60,7 +69,12 @@ const Signup = () => {
           type="submit"
           value="Sign Up"
         />
-        <p onClick={()=>navigate('/login')} className="text-center text-red-600 cursor-pointer hover:underline">Already have an account</p>
+        <p
+          onClick={() => navigate("/login")}
+          className="text-center text-red-600 cursor-pointer hover:underline"
+        >
+          Already have an account
+        </p>
       </form>
     </section>
   );

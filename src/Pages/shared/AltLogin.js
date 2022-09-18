@@ -2,12 +2,14 @@ import React from 'react';
 import auth from '../../firebase.init';
 import ButtonMe from './ButtonMe';
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { useNavigate } from 'react-router-dom';
 
 const AltLogin = () => {
-    const [signInWithGoogle] = useSignInWithGoogle(auth);
+    const [signInWithGoogle, error] = useSignInWithGoogle(auth);
+    const navigate = useNavigate();
     return (
         <div>
-            <div onClick={()=>{signInWithGoogle()}} className='mb-8 text-center'>
+            <div onClick={ async ()=>{ await signInWithGoogle(); error || await navigate('/')}} className='mb-8 text-center'>
                 <ButtonMe>Continue with Google</ButtonMe>
             </div>
             <div className='grid grid-cols-3 items-center' style={{gridTemplateColumns: '45% 10% 45%'}}>
